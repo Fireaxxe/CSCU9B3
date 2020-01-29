@@ -1,0 +1,58 @@
+<html>
+<head>
+	<title>First PHP and MySQL Example</title>
+</head>
+
+<body>
+  <form action ="dbexample.php" method="post">
+		Enter your name: <input type="text" name="name">
+		<input type="submit">
+  </form>
+
+<?php
+// procedural version
+$servername = "wamp0.cs.stir.ac.uk";
+$username = "maf00109";
+$password = "maf00109";
+$database = "maf00109";
+
+
+if(!empty($_POST['name'])) {
+
+	$name = $_POST['name'];
+	echo "Hello, {$_POST["name"]}, and welcome.<br>";
+
+	// Create connection
+	$conn = mysqli_connect($servername, $username, $password, $database);
+	//$conn = new_mysgli($servername, $username, $password, $database);
+
+	// Check connection
+	if (!$conn) {
+	    die("Connection failed: " . mysqli_connect_error());
+	}
+	echo "Connected successfully to database.<br>";
+
+	$name=mysqli_real_escape_string($conn,$name);
+	$name=strip_tags($name);
+
+	$sql = "SELECT `ProjectName`, `Description`, `Name` FROM employees2,projects2 WHERE projects2.Manager = employees2.EmployeeNumber AND Name LIKE '%".$name."%'";
+	echo "Query is: ".$sql."<br>";
+
+	$result = mysqli_query($conn, $sql);
+
+	if (!$result) {
+		echo "Search produced an error: ". mysqli_error();
+	}
+	else {
+		echo "Results are:<br>";
+    	// output data of each row
+    	while($row = mysqli_fetch_row($result)) {
+        	echo "- Project Name: " . $row[0]. " - Description: " . $row[1]. "- Manager Name: " . $row[2]. "<br>";
+    	}
+	}
+	mysqli_close($conn);
+}
+
+?>
+</body>
+</html>

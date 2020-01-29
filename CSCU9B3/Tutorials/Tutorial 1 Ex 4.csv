@@ -1,0 +1,9 @@
+Id,Name,Shape Library,Page ID,Contained By,Line Source,Line Destination,Source Arrow,Destination Arrow,Text Area 1,Text Area 2,Text Area 3,Text Area 4,Text Area 5,Text Area 6,Text Area 7,Text Area 8,Text Area 9,Text Area 10,Text Area 11,Text Area 12,Text Area 13,Text Area 14,Text Area 15,Text Area 16,Text Area 17,Text Area 18,Text Area 19,Text Area 20,Text Area 21,Text Area 22
+1,Page,,,,,,,,Page 1,,,,,,,,,,,,,,,,,,,,,
+2,Entity,Entity Relationship,1,,,,,,Shipment,"PK,FK",Product_ID,"PK,FK",Order_number,,ChargeCardTime,,PackingTime,,ShipOrderDate,,,,,,,,,,,
+3,Entity,Entity Relationship,1,,,,,,Customer,PK,Customer_ID,int,,FirstName,varchat(50),,LastName,varchar(50),,Street,varchar(50),,City,varchar(50),,Zip,varchar(6),,Phone,varchar(11)
+4,Entity,Entity Relationship,1,,,,,,Order,PK,Order_Number,int,FK,Customer_ID,int,,Customer_name,varchar(50),,To_street,varchar(50),,To_city,varchar(50),,Ship_date,datetime,FK,Product_ID,int
+5,Entity,Entity Relationship,1,,,,,,Product,PK,Product_ID,int,,Quantity,int,,Product_type,varchar(50),,Price,int,,,,,,,,,
+6,Line,,1,,4,5,CFN ERD Zero Or More Arrow,CFN ERD One Or More Arrow,,,,,,,,,,,,,,,,,,,,,,
+7,Line,,1,,4,3,CFN ERD Zero Or More Arrow,CFN ERD Exactly One Arrow,,,,,,,,,,,,,,,,,,,,,,
+8,Line,,1,,2,6,None,None,,,,,,,,,,,,,,,,,,,,,,

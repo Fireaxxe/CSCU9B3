@@ -1,0 +1,9 @@
+Id,Name,Shape Library,Page ID,Contained By,Line Source,Line Destination,Source Arrow,Destination Arrow,Text Area 1,Text Area 2,Text Area 3,Text Area 4,Text Area 5,Text Area 6,Text Area 7,Text Area 8,Text Area 9,Text Area 10,Text Area 11,Text Area 12,Text Area 13,Text Area 14,Text Area 15,Text Area 16
+1,Page,,,,,,,,Page 1,,,,,,,,,,,,,,,
+2,Entity,Entity Relationship,1,,,,,,Client,PK,ClientNo,int,,Name,varchar(50),,Phone,int(11),,FavouriteStylist,varchar(50),,,
+3,Entity,Entity Relationship,1,,,,,,Stylist,PK,StylistNo,int,,Name,varchar(50),,Phone,int(11),,,,,,
+4,Entity,Entity Relationship,1,,,,,,Treatment,PK,TreatmentName,varchar(50),,Price,int,,Duration,time,,,,,,
+5,Entity,Entity Relationship,1,,,,,,Booking,"PK,FK",ClientNo,int,"PK,FK",StylistNo,int,,Date,date,,Time,time,FK,TreatmentName,varchar(50)
+6,Line,,1,,5,4,CFN ERD Zero Or More Arrow,CFN ERD One Or More Arrow,,,,,,,,,,,,,,,,
+7,Line,,1,,5,3,CFN ERD One Or More Arrow,CFN ERD Exactly One Arrow,,,,,,,,,,,,,,,,
+8,Line,,1,,2,5,CFN ERD Exactly One Arrow,CFN ERD Zero Or More Arrow,,,,,,,,,,,,,,,,

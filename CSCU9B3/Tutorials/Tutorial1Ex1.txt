@@ -1,0 +1,32 @@
+CREATE TABLE `Client` (
+  `ClientNo` int,
+  `Name` varchar(50),
+  `Phone` int(11),
+  `FavouriteStylist` varchar(50),
+  PRIMARY KEY (`ClientNo`)
+);
+
+CREATE TABLE `Stylist` (
+  `StylistNo` int,
+  `Name` varchar(50),
+  `Phone` int(11),
+  PRIMARY KEY (`StylistNo`)
+);
+
+CREATE TABLE `Treatment` (
+  `TreatmentName` varchar(50),
+  `Price` int,
+  `Duration` time,
+  PRIMARY KEY (`TreatmentName`)
+);
+
+CREATE TABLE `Booking` (
+  `ClientNo` int,
+  `StylistNo` int,
+  `Date` date,
+  `Time` time,
+  `TreatmentName` varchar(50),
+  KEY `PK,FK` (`ClientNo`, `StylistNo`),
+  KEY `FK` (`TreatmentName`)
+);
+

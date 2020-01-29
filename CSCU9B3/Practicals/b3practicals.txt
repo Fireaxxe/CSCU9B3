@@ -1,0 +1,316 @@
+CREATE TABLE Employees2 (
+    EmployeeNumber INT,
+    Name VARCHAR(50),
+    DateOfBirth DATE (50),
+    Salary DECIMAL(7,2),
+    FullTime(%) INT 
+   
+);
+CREATE TABLE Projects2 (
+    PROJECT NAME VARCHAR(50),
+    MANAGER INT,
+    DISCRIPTION VARCHAR(50),
+    FULL DAYS WORKED INT, 
+);
+
+
+
+
+
+INSERT INTO Employees2 (Name,
+                        EmployeeNumber , 
+                        DateofBirth, 
+                        Salary , 
+                        Full Time(%) ) VALUES ('John Jones', '234621','04-07-1972','45345.95','100');
+INSERT INTO Employees2 (Name,
+                        EmployeeNumber , 
+                        DateofBirth, 
+                        Salary , 
+                        Full Time(%) ) VALUES ('Sam smith', '374837','23-08-1970','44000.50','50');
+INSERT INTO Projects2 (Project Name , 
+                       ManageR , 
+                       Description , 
+                       Full Days Worked ) VALUES ('Thrust','234621','Build a rocket to the moon','100');
+INSERT INTO Projects2 (Project Name , 
+                       ManageR , 
+                       Description , 
+                       Full Days Worked ) VALUES ('Gold','374837','Turn lead into Gold','200');
+INSERT INTO Projects2 (Project Name , 
+                       ManageR , 
+                       Description , 
+                       Full Days Worked ) VALUES ('Win','234621','Win Wimbeldon','20');
+----------------------------------------------------------------------------------------------------------------
+1. SELECT * FROM employees2 WHERE name = 'Sam Smith'
+2. SELECT * FROM employees2 WHERE FullTime(%) = '100'
+3. 
+4.
+5.
+6.SELECT PROJECT NAME FROM projects2 WHERE FULL DAYS WORKED >= "150"
+7.
+9.
+10.
+------------------------------------------------------------------------------------------------------------------
+CREATE TABLE MoneyMakers (
+  Maker Number int(6),
+  Name varchar(10),
+  Date of Birth date,
+  Salary int(5),
+  PRIMARY KEY (Maker Number)
+);
+
+CREATE TABLE Contract (
+  Project Name varchar(10),
+  Maker Number int(6),
+  KEY FK (Project Name, Maker Number)
+);
+
+CREATE TABLE Assignments (
+  Assignment Name varchar(10),
+  Description text,
+  Manager int(6),
+  Full Days Worked int(3),
+  PRIMARY KEY (Assignment Name),
+  KEY FK (Manager)
+);
+
+INSERT INTO moneymakers`(Maker Number`, Name, Date of Birth, Salary) SELECT DISTINCT Employee, Name, DateOfBirth, Salary FROM loaddata;
+
+INSERT INTO contract`(Project Name`, Maker Number) SELECT DISTINCT ProjectName, Employee FROM loaddata;
+
+INSERT INTO assignments`(Assignment Name`, Description, Manager, Full Days Worked) SELECT DISTINCT ProjectName, Description, Manager, FullDaysWorked FROM loaddata;
+----------------------------------------------------------------------------------------------------------------------
+1.
+
+2.List the name and description of the project (if any) that Alan Stoner manages. / 
+
+SELECT assignments.`Assignment Name`, Description 
+FROM assignments
+LEFT JOIN moneymakers
+ON assignments.Manager = moneymakers.`Maker Number`
+WHERE moneymakers.Name = 'Alan Stoner' ;
+
+3.List the names of all employees working on project Zoom./ 
+
+SELECT moneymakers.Name
+FROM contract
+LEFT JOIN moneymakers
+ON moneymakers.`Maker Number` = contract.`Maker Number`
+WHERE contract.`Project Name` = 'Zoom';
+
+4.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+(PROJECT City FROM BRANCH) - (PROJECT City FROM PROPERTY)
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE TEAMS (
+
+  TeamName VARCHAR(20),
+
+  HomeTown VARCHAR(20),
+
+  PRIMARY KEY (TeamName)
+
+);
+
+
+
+CREATE TABLE PLAYERS (
+
+  PlayerID INT(11),
+
+  Surname VARCHAR(20),
+
+  Forename VARCHAR(20),
+
+  TeamName VARCHAR(20),
+
+  Status ENUM('Amateur','Professional'),
+
+  PRIMARY KEY (PlayerID),
+
+  KEY FK (TeamName)
+
+);
+
+
+
+CREATE TABLE PLAYERSKILLS (
+
+  PlayerID INT(11),
+
+  Skillname VARCHAR(20),
+
+  KEY FK (PlayerID, Skillname)
+
+);
+
+
+
+CREATE TABLE SKILLS (
+
+  Skillname VARCHAR(20),
+
+  PRIMARY KEY (Skillname)
+
+);
+
+
+
+CREATE TABLE PLAYERSCORE (
+
+  GameDate DATE,
+
+  PlayerID INT(11),
+
+  PointScored INT(4),
+
+  KEY FK (GameDate, PlayerID)
+
+);
+
+
+
+CREATE TABLE GAMES (
+
+  GameDate DATE,
+
+  GameVenue VARCHAR(20),
+
+  PRIMARY KEY (GameDate)
+
+);
+------------------------------------------------------------------------------------------
+
+INSERT INTO players (PlayerID, Surname, Forename, TeamName, Status)
+SELECT DISTINCT ID, Surname, Forename, Team, Status
+ FROM data
+
+INSERT INTO Teams (TeamName, HomeTown)
+SELECT DISTINCT Team, Town
+ FROM data
+
+INSERT INTO games (GameDate, GameVenue)
+SELECT DISTINCT Date, Venue
+ FROM data
+
+INSERT INTO skills (Skillname)
+SELECT DISTINCT Skill
+ FROM data
+
+INSERT INTO playerskills (PlayerID, Skillname)
+SELECT DISTINCT ID, Skill,
+ FROM data
+
+INSERT INTO playerscore (GameDate, PlayerID, PointScored)
+SELECT DISTINCT Date, ID, Points
+ FROM data
+
+
+INSERT INTO teamdate(Team Name, Date)
+SELECT DISTINCT Team, Date
+ FROM data
+-----------------------------------------------------------------------------------------------
+1.
+SELECT * FROM team
+
+2. 
+SELECT * FROM teamdate
+
+3.
+SELECT player.`Forename`, player.`Surname`, teamdate.`Team Name`, teamdate.`Date`, points.`Points` FROM teamdate, points, player
+WHERE player.`PlayerID` = points.`Player ID` AND teamdate.`Team Name` = player.`Team Name` ;
+
+4. 
+
+SELECT teamdate.`Date` FROM teamdate WHERE teamdate.`Team Name` = 'Jets' OR teamdate.`Team Name` = 'Rams' AND teamdate.`Date` = teamdate.`Date`; 
+
+-------------------------------------------------------------------------------------------------------
+CREATE TABLE TEAMS (
+  TeamName VARCHAR(20),
+  HomeTown VARCHAR(20),
+  PRIMARY KEY (TeamName)
+);
+
+CREATE TABLE GAMES (
+  GameDate DATE,
+  GameVenue VARCHAR(20),
+  PRIMARY KEY (GameDate)
+);
+
+CREATE TABLE PLAYERSKILLS (
+  PlayerID INT(11),
+  Skillname VARCHAR(20),
+  KEY FK (PlayerID, Skillname)
+);
+
+CREATE TABLE PLAYERSCORE (
+  GameDate DATE,
+  PlayerID INT(11),
+  PointScored INT(4),
+  KEY FK (GameDate, PlayerID)
+);
+
+CREATE TABLE Town
+(
+    HomeTown VARCHAR(20),
+    GameVenue VARCHAR(20),
+    KEY FK (HomeTown , GameVenue)
+);
+
+CREATE TABLE SKILLS (
+  Skillname VARCHAR(20),
+  PRIMARY KEY (Skillname)
+);
+
+CREATE TABLE PLAYERS (
+  PlayerID INT(11),
+  Surname VARCHAR(20),
+  Forename VARCHAR(20),
+  TeamName VARCHAR(20),
+  Status ENUM('Amateur','Professional'),
+  PRIMARY KEY (PlayerID),
+  KEY FK (TeamName, Status)
+);
+
+CREATE TABLE Status (
+  Status ENUM('Amateur','Professional'),
+  PRIMARY KEY (Status)
+);
+
+CREATE TABLE Town (
+  HomeTown VARCHAR(20),
+  GameVenue Type,
+  Field Type,
+  KEY FK (HomeTown, GameVenue),
+  KEY Key (Field)
+);
+
+
+INSERT INTO players (PlayerID, Surname, Forename, TeamName, Status)
+SELECT DISTINCT ID, Surname, Forename, Team, Status
+ FROM data
+
+INSERT INTO Teams (TeamName, HomeTown)
+SELECT DISTINCT Team, Town
+ FROM data
+
+INSERT INTO games (GameDate, GameVenue)
+SELECT DISTINCT Date, Venue
+ FROM data
+
+INSERT INTO skills (Skillname)
+SELECT DISTINCT Skill
+ FROM data
+
+INSERT INTO playerskills (PlayerID, Skillname)
+SELECT DISTINCT ID, Skill,
+ FROM data
+
+INSERT INTO playerscore (GameDate, PlayerID, PointScored)
+SELECT DISTINCT Date, ID, Points
+ FROM data
+
+
+INSERT INTO teamdate(Team Name, Date)
+SELECT DISTINCT Team, Date
+ FROM data

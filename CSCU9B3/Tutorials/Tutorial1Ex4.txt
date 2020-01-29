@@ -1,0 +1,40 @@
+CREATE TABLE `Shipment` (
+  `Product_ID` <type>,
+  `Order_number` <type>,
+  `ChargeCardTime` <type>,
+  `PackingTime` <type>,
+  `ShipOrderDate` <type>,
+  KEY `PK,FK` (`Product_ID`, `Order_number`)
+);
+
+CREATE TABLE `Customer` (
+  `Customer_ID` int,
+  `FirstName` varchat(50),
+  `LastName` varchar(50),
+  `Street` varchar(50),
+  `City` varchar(50),
+  `Zip` varchar(6),
+  `Phone` varchar(11),
+  PRIMARY KEY (`Customer_ID`)
+);
+
+CREATE TABLE `Product` (
+  `Product_ID` int,
+  `Quantity` int,
+  `Product_type` varchar(50),
+  `Price` int,
+  PRIMARY KEY (`Product_ID`)
+);
+
+CREATE TABLE `Order` (
+  `Order_Number` int,
+  `Customer_ID` int,
+  `Customer_name` varchar(50),
+  `To_street` varchar(50),
+  `To_city` varchar(50),
+  `Ship_date` datetime,
+  `Product_ID` int,
+  PRIMARY KEY (`Order_Number`),
+  KEY `FK` (`Customer_ID`, `Product_ID`)
+);
+

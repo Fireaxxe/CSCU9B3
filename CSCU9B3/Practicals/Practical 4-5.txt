@@ -1,0 +1,25 @@
+CREATE TABLE `Slaves` (
+  `Slave Number` int(6),
+  `Name` varchar(10),
+  `Date of Birth` timedate,
+  `Salary that slaves will never see` int(5),
+  PRIMARY KEY (`Slave Number`)
+);
+
+CREATE TABLE `Contract` (
+  `Project Name` varchar(10),
+  `Slave Number` int(6),
+  KEY `FK` (`Project Name`, `Slave Number`)
+);
+
+CREATE TABLE `Tortures` (
+  `Torture Name` varchar(10),
+  `Description` text,
+  `Master` int(6),
+  `Full Days Worked` int(3),
+  PRIMARY KEY (`Torture Name`),
+  KEY `FK` (`Master`)
+);
+
+INSERT INTO slaves (`Slave Number`, `Name`, `Date of Birth`, `Salary`) 
+SELECT  DISTINCT `Employee`, `Name`, `Date Of Birth`, `Salary` FROM loaddata;

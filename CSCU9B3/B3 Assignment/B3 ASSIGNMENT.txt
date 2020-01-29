@@ -1,0 +1,160 @@
+//CREATE TABLES
+
+CREATE TABLE `STATUS` (
+  `Status` VARCHAR(20),
+  PRIMARY KEY (`Status`)
+);
+
+CREATE TABLE `PLAYERSCORES` (
+  `ScheduledDate` DATE,
+  `PlayerID` INT(11),
+  `Points` INT(4),
+  KEY `CPK` (`ScheduledDate`, `PlayerID`)
+);
+
+CREATE TABLE `SCHEDULEDGAMES` (
+  `ScheduledDate` DATE,
+  `Venue` VARCHAR(20),
+  PRIMARY KEY (`ScheduledDate`),
+  KEY `FK` (`Venue`)
+);
+
+CREATE TABLE `SKILLS` (
+  `Skill` VARCHAR(20),
+  PRIMARY KEY (`Skill`)
+);
+
+CREATE TABLE `TEAMS` (
+  `Team` VARCHAR(20),
+  `Town` VARCHAR(20),
+  PRIMARY KEY (`Team`),
+  KEY `FK` (`Town`)
+);
+
+CREATE TABLE `PLAYERS` (
+  `PlayerID` INT(11),
+  `Surname` VARCHAR(20),
+  `Forename` VARCHAR(20),
+  `Team` VARCHAR(20),
+  `Status` ENUM('Amateur','Professional'),
+  PRIMARY KEY (`PlayerID`),
+  KEY `FK` (`Team`, `Status`)
+);
+
+CREATE TABLE `TOWNVENUE` (
+  `Town` VARCHAR(20),
+  `Venue` VARCHAR(20),
+  KEY `CPK` (`Town`, `Venue`)
+);
+
+CREATE TABLE `PLAYERSKILLS` (
+  `PlayerID` INT(11),
+  `Skill` VARCHAR(20),
+  KEY `CPK` (`PlayerID`, `Skill`)
+);
+
+--------------------------------------------
+
+
+//INSERT
+
+
+//players
+INSERT INTO `players`(`PlayerID`, `Surname`, `Forename`, `Team`, `Status`) 
+SELECT DISTINCT `ID`, `Surname`,`Name`,`Team`,`Status` 
+FROM table17;
+
+
+//playerscores
+INSERT INTO `playerscores`(`ScheduledDate`, `PlayerID`, `Points`)
+SELECT DISTINCT `Date`, `ID`, `Points`
+FROM table17;
+
+//playerskills
+INSERT INTO `playerskills`(`PlayerID`, `Skill`)
+SELECT DISTINCT `ID`, `Skill`
+FROM table17;
+
+//scheduledgames
+INSERT INTO `scheduledgames`(`ScheduledDate`, `Venue`)
+SELECT DISTINCT `Date`, `Venue`
+FROM table17;
+
+//skills
+INSERT INTO `skills`(`Skill`)
+SELECT DISTINCT `Skill`
+FROM table17;
+
+//status
+INSERT INTO `status`(`Status`)
+SELECT DISTINCT `Status`
+FROM table17;
+
+//teams
+INSERT INTO `teams`(`Team`, `Town`)
+SELECT DISTINCT `Team`, `Town`
+FROM table17;
+
+//townsvenue
+INSERT INTO `townvenue`(`Town`, `Venue`) 
+SELECT DISTINCT `Town`, `Venue`
+FROM table17;
+
+
+-----------------------------------------
+
+A. 
+SELECT* 
+FROM teams
+
+B.
+SELECT Team AS Teams,
+COUNT(DISTINCT playerscores.ScheduledDate) AS `Games Played`
+FROM playerscores
+LEFT JOIN scheduledgames USING (ScheduledDate)
+LEFT JOIN players USING (PlayerID)
+GROUP BY Team
+
+C.
+SELECT DISTINCT a.Forename 
+AS Name, a.Surname AS Surname, 
+(SELECT COUNT(b.PlayerID) 
+FROM playerscores b 
+WHERE a.PlayerID = b.PlayerID) 
+AS TotalGames, (SELECT SUM(b.Points) 
+FROM playerscores b WHERE a.PlayerID = b.PlayerID) 
+AS TotalPoints 
+FROM players a, playerscores b LIMIT 10
+
+D.
+SELECT DISTINCT ScheduledDate
+FROM (SELECT ScheduledDate FROM playerscores ps 
+LEFT JOIN players players
+ON ps.PlayerID = players.PlayerID
+WHERE players.Team = 'Rams') Rams
+INNER JOIN
+(SELECT ScheduledDate FROM playerscores ps
+LEFT JOIN players players
+ON ps.PlayerID = players.PlayerID
+WHERE players.Team = 'Jets') Jets
+USING (ScheduledDate)
+ 
+E.
+SELECT `Team` AS Teams,
+COUNT(DISTINCT `ScheduledDate`) AS `Games Played`,
+(SELECT SUM(`Points`)) AS `Points Scored`,
+(SELECT SUM(`Points`)/COUNT(DISTINCT `ScheduledDate`)) AS `Average Points`
+FROM playerscores
+LEFT JOIN scheduledgames USING(ScheduledDate)
+LEFT JOIN players USING(PlayerID)
+GROUP BY Teams
+ORDER BY `Points Scored`
+ 
+ 
+
+
+
+
+
+
+
